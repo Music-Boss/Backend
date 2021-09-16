@@ -1,0 +1,24 @@
+-> Crear proyecto nuevo:
+
+django-admin startproject Universidad
+
+-> Crear una aplicación dentro de un proyecto:
+
+(generalmente dentro de una carpeta conteniendo las aplicaciones)
+djangoadmin startapp Academico
+
+-> Hacer la migración de la Base de Datos:
+
+python manage.py migrate
+
+-> Migrar los nuevos modelos dentro de la Base de Datos:
+
+python manage.py makemigrations
+
+-> Crear un superusuario para administrar el proyecto:
+
+python manage.py createsuperuser
+
+-> Correr el Servidor
+
+python manage.py runserver
