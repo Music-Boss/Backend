@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class RockolaConfig(AppConfig):
-    name = 'Rockola'
+    name = 'Aplicaciones.Rockola'
