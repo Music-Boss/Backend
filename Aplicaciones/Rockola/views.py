@@ -1,3 +1,4 @@
+from MusicBoss.settings import AUTH_PASSWORD_VALIDATORS
 from django.shortcuts import redirect, render
 from .models import Curso
 from django.contrib import messages
@@ -39,3 +40,6 @@ def eliminarCurso(request, codigo):
     curso.delete()
     messages.success(request,"¡Curso Eliminado!")
     return redirect('/')
+
+def vistalogin (request):
+    return render(request, "registration/login.html")
