@@ -62,6 +62,7 @@ class Rockola(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     #Relacion muchos a muchos con Lista
     listas = models.ManyToManyField(Lista)
+    canciones = models.ManyToManyField(Cancion)
 
     def __str__(self):
         texto = "{0} - {1}"

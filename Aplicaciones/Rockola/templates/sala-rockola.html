@@ -1,0 +1,132 @@
+{% extends "./base.html" %}
+
+{% block title %}
+Sala Rockola
+{% endblock %}
+
+{% block body %}
+<div class="row justify-content-md-center">
+        <h1 style="text-align:center" >{{rockola.nombre}}</h1>
+</div>
+<div class="row py-2">
+    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+        <h2>Selector de Canciones</h2>
+        <div class="row py-2">
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                {% if listas %}
+                    {% for lista in listas %}
+                        {% if lista.idLista == listaId %}
+                            <input type="radio" class="btn-check" name="btnradio" id="btnListas{{lista.idLista}}" autocomplete="off" onclick="location.href = '/rockola/id/{{rockola.idRockola}}/{{lista.idLista}}'" checked>
+                            <label class="btn btn-outline-primary" for="btnListas{{lista.idLista}}">{{lista.nombre}}</label> 
+                        {% else %}
+                            <input type="radio" class="btn-check" name="btnradio" id="btnListas{{lista.idLista}}" autocomplete="off" onclick="location.href = '/rockola/id/{{rockola.idRockola}}/{{lista.idLista}}'">
+                            <label class="btn btn-outline-primary" for="btnListas{{lista.idLista}}">{{lista.nombre}}</label> 
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+
+            </div>
+        </div>
+        <div class="row py-2 justify-content-md-center" >
+            <div class="col-2">
+
+            </div>
+            <div id="carousel-col" class="col-8" >
+
+                <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
+                    <div id="carouselExampleIndicators" class="carousel-indicators">
+                        {% if context %}
+                            {% for cancion in context.0.canciones %}
+                                {% if forloop.counter == 1 %}
+                                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="{{forloop.counter0}}"
+                                    class="active" aria-current="true" aria-label="Slide {{forloop.counter}}"></button>
+                                {% else %}
+                                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="{{forloop.counter0}}"
+                                    aria-label="Slide {{forloop.counter}}"></button>
+                                {% endif %}
+                                
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div id="carouselExampleInner" class="carousel-inner">
+                        {% if context %}
+                            {% for cancion in context.0.canciones %}
+                                {% if forloop.counter == 1 %}
+                                    <div class="carousel-item active" value="{{cancion.idCancion}}" onload="test()">
+                                {% else %}
+                                    <div class="carousel-item" value="{{cancion.idCancion}}">
+                                {% endif %}
+                                    <img src="https://img.youtube.com/vi/{{cancion.fuente}}/hqdefault.jpg" class="d-block w-100" alt="...">
+                                    <div class="carousel-caption" >
+                                        <h5 class="shadow-text">{{cancion.nombre}}</h5>
+                                        <p class="shadow-text">{{cancion.artista}}</p>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+            <div class="col-2">
+
+            </div>
+        </div>
+        <form action="/registrarCancionRockola/" method="POST"> {% csrf_token %}
+            <div class="mb-3">
+                {% if context %}
+                <input type="hidden" id="numCancion" name = "numCancion" class="form-control" value = "{{context.0.canciones.0.idCancion}}" required>
+                {% endif %}
+            </div>
+            <div class="mb-3">
+                <input type="hidden" id="numRockola" name = "numRockola" class="form-control" value = "{{rockola.idRockola}}" required>
+            </div>
+            <div class="mb-3 d-grid gap-2">
+                <button type="submit" class="btn btn-success">Agregar a la lista</button>
+            </div>
+        </form>
+        <div class="form">
+            
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 py-2">
+        <h2>Lista de Reproducción</h2>
+        <div class="table-responsive py-2">
+            <table class="table table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>Fuente</th>
+                        <th>Nombre</th>
+                        <th>Artista</th>
+                        <th>Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in canciones %}
+                        <tr>
+                            <td>{{forloop.counter}}</td>
+                            <td>{{c.fuente}}</td>
+                            <td>{{c.nombre}}</td>
+                            <td>{{c.artista}}</td>
+                            <td><a href="/eliminarCancionRockola/{{rockola.idRockola}}/{{c.idCancion}}" class="btn btn-danger btnEliminacion">Eliminar</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
