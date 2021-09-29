@@ -1,0 +1,43 @@
+{% extends "../base.html" %}
+
+{% block title %}
+Registrarse
+{% endblock %}
+
+{% block body %}
+
+    <div class="container"></div>
+
+        <div class="row">
+            <div class="col-12 col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h2>Registro de Usuario</h2>
+                        <hr>
+                        <form action="/registrarUsuario/"method="POST">{%csrf_token%}
+                            <div class="mb-3">
+                                <input type="text" id="txtUsuario" name = "txtUsuario"  class="form-control" placeholder="Usuario" minlength="6" maxlength="16" required>
+                            </div>
+                            <div class="mb-3">
+                                <input type="password" id="txtContraseña" name = "txtContraseña"  class="form-control" placeholder="Contraseña" minlength="" maxlength="50" required>
+                            </div>
+                            <div class="mb-3">
+                                <input type="email" id="txtCorreo" name = "txtCorreo"  class="form-control" placeholder="Correo" minlength="6" maxlength="16" required>
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" id="txtNombre" name = "txtNombre"  class="form-control" placeholder="Nombre" minlength="" maxlength="50" required>
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" id="txtApellido" name = "txtApellido"  class="form-control" placeholder="Apellido" minlength="" maxlength="50" required>
+                            </div>
+                            <input type="submit" value="Registrar" class="btn btn-success float-rigth">
+
+                        </form>
+
+
+                    </div>
+                </div>
+
+        </div>
+    </div>
+{% endblock %}

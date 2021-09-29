@@ -18,7 +18,7 @@ class Usuario(models.Model):
     apellido = models.CharField(max_length=30)
     contraseña = models.CharField(max_length=256)
     #blank=True indica que los siguientes atributos no son obligatorios dentro del modelo
-    fechaNacimiento = models.DateField(blank=True)
+    fechaNacimiento = models.DateField(blank=True,null=True)
     
     def __str__(self):
         texto = "{0} ({1} {2})"

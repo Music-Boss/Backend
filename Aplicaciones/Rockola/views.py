@@ -1,6 +1,9 @@
+from MusicBoss.settings import AUTH_PASSWORD_VALIDATORS
 from django.shortcuts import redirect, render
-from .models import Curso, Rockola, Cancion
+from .models import Curso, Rockola, Cancion, Usuario
 from django.contrib import messages
+
+
 
 # Create your views here.
 
@@ -98,3 +101,35 @@ def eliminarCancionRockola(request, idRockola, idCancion):
 
     rockola.canciones.remove(cancion)
     return redirect('/rockola/id/'+idRockola)
+
+#Funciones para login
+def vistalogin (request):
+    return render(request, "registration/login.html")
+
+def registro(request):
+    return render(request, "registration/registro.html")
+
+def registrarUsuario(request):
+    nombreUsuario =request.POST['txtUsuario']
+    email = request.POST['txtCorreo']
+    nombre = request.POST['txtNombre']
+    apellido = request.POST['txtApellido']
+    contraseña = request.POST['txtContraseña']
+    #fechaNacimiento = request.POST['txtDate']
+
+    usuario=Usuario.objects.create(username=nombreUsuario,email=email,
+    nombre=nombre,apellido=apellido,contraseña=contraseña)
+
+    return redirect('/')
+
+def ingresarUsuario(request):
+    nombreUsuario =request.POST['txtUsuario']
+    contraseña = request.POST['txtContraseña']
+
+    usuario=Usuario.objects.create(username=nombreUsuario,contraseña=contraseña)
+    return redirect ('/')
+
+    #curso=Curso.objects.create(codigo=codigo, nombre=nombre, creditos=creditos)
+    #messages.success(request,"¡Curso Registrado!")
+    #return redirect('/')
+
