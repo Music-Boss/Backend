@@ -1,0 +1,97 @@
+{% extends "../base.html" %}
+
+{% block title %}
+Inicio Sesion
+{% endblock %}
+
+{% block body %}
+
+<div class="container py-4"></div>
+
+        <div class="row">
+            <div class="col-12 col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h2>Iniciar Sesión</h2>
+                        <hr>
+                        <div class="card">
+                            <div class="card-body">
+                                <form action="/login/" method="POST"> {% csrf_token %}
+                                    <!-- la clase "form-group" no renderizaba correctamente los elementos del formulario, se cambiaron por "mb-3" -->
+                                    <div class="mb-3">
+                                        <input type="text" name = "txtUsuario"  class="form-control" placeholder="Usuario" minlength="5" maxlength="16" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="password" name = "txtContraseña"  class="form-control" placeholder="Contraseña" minlength="" maxlength="50" required>
+                                    </div>
+                                    <!--div class="mb-3">
+                                        <input type="email" id="txtCorreo" name = "txtCorreo"  class="form-control" placeholder="Correo electronico" min="1" max="9"required>
+                                    </div-->
+
+                                    <!-- btn-block fue reemplazado "d-grid gap-2" en las clases del div -->
+                                    <div class="mb-3 d-grid gap-2">
+                                        <button type="submit" class="btn btn-success" >Inciar Sesión</button>
+                                    </div>
+                                       
+                                </form>
+                                <div class="row py-2">
+                                    {% if messages %}
+                                    {% for message in messages %}
+                                    <div class="alert alert-dismissible alert-{% if message.tags %}{{message.tags}}{% endif %} fade show">
+                                    <button type="button" class="btn-close"  data-bs-dismiss="alert" aria-label="Close"></button>
+                                    <strong class="text-dark">{{ message }}</strong>
+                                    </div>
+                                    {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <p>¿No tiene una cuenta?</p>
+                                <a class="btn btn-primary" href="/registro/" role="button">Regístrese</a>
+                            </div>
+                        </div>   
+                        <!--form action=""method="post">
+                            {%csrf_token%}
+                            {{form}}
+                            <input type="submit" value="Entrar">
+                        </form-->
+                    </div>
+                </div>
+
+        </div>
+    </div>
+
+{% endblock %}
+
+<!--DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ingreso Al Sitema</title>
+</head>
+<!body>
+
+    <div class="container"></div>
+
+        <div class="row">
+            <div class="col-12 col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h2>Ingrese sus credenciales</h2>
+                        <hr>
+                        <form action=""method="post">
+                            {%csrf_token%}
+                            {{form}}
+                            <input type="submit" value="Ingresar">
+
+                        </form>
+
+
+                    </div>
+                </div>
+
+        </div>
+    </div>
+
+</body>
+</html-->

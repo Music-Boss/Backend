@@ -1,7 +1,11 @@
 from django.shortcuts import redirect, render
-from .models import Curso, Rockola, Cancion
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+#from django.contrib.auth.forms import UserCreationForm
 
+from MusicBoss.settings import AUTH_PASSWORD_VALIDATORS
+from .models import Curso, Rockola, Cancion, Usuario, CustomUserForm
 # Create your views here.
 
 def home(request):
@@ -98,3 +102,51 @@ def eliminarCancionRockola(request, idRockola, idCancion):
 
     rockola.canciones.remove(cancion)
     return redirect('/rockola/id/'+idRockola)
+
+#Funciones para login
+
+def autenticarUsuario(request):
+    if request.user.is_authenticated:
+        return redirect('/home/')
+    else:
+        if request.method == 'POST':
+            username = request.POST['txtUsuario']
+            password = request.POST['txtContraseña']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('/home/')
+            else:
+                messages.info(request, "El nombre de usuario o la contraseña son incorrectos")
+        return render(request,"registration/login.html")
+
+def cerrarSesionUsuario(request):
+    logout(request)
+    return redirect('/')
+
+def registrarUsuario(request):
+    if request.user.is_authenticated:
+        return redirect('/home/')
+    else:
+        form = CustomUserForm()
+        if request.method == 'POST':
+            form = CustomUserForm(request.POST)
+            if form.is_valid():
+                form.save()
+                username = form.cleaned_data.get('username')
+                messages.success(request, "¡El usuario "+ username + " fue creado exitosamente!")
+                return redirect('/login/')
+    
+        context = {'form' : form }
+        return render(request,"registration/registro.html", context)
+
+#Vistas Usuario
+
+@login_required(login_url='/login/')
+def userHome(request):
+    return render(request, "usuario/home.html")
+
+#Vista Principal
+
+def homepage(request):
+    return render(request, "home/homepage.html")

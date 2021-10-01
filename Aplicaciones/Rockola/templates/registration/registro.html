@@ -1,0 +1,46 @@
+{% extends "../base.html" %}
+
+{% block title %}
+Registrarse
+{% endblock %}
+
+{% block body %}
+
+<div class="container py-4"></div>
+        <div class="row">
+            <div class="col-12 col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h2>Registro de Usuario</h2>
+                        <hr>
+                        <form action="/registro/"method="POST">{%csrf_token%}
+                            
+                            {% for field in form %}
+                            <div class="mb-3">
+                               {{field}}
+                            </div>
+                            {% endfor %}
+                            <div class="mb-3 d-grid gap-2">
+                                <button type="submit" class="btn btn-success" >Registrar</button>
+                            </div>
+                        </form>
+                        <div class="row py-2">
+                            {% if form.errors %}
+                            {% for field, errors in form.errors.items %}
+                            {% for elem in errors %}
+                            <div class="alert alert-dismissible alert-info fade show">
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            <strong class="text-dark">{{ elem }}</strong>
+                            </div>
+                            {% endfor %}
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+                        <p>¿Ya se encuentra registrado?</p>
+                        <a class="btn btn-primary" href="/login/" role="button">Inciar Sesión</a>
+                    </div>
+                </div>
+
+        </div>
+    </div>
+{% endblock %}
