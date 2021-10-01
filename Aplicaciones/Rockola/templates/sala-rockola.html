@@ -5,7 +5,8 @@ Sala Rockola
 {% endblock %}
 
 {% block body %}
-<div class="row justify-content-md-center">
+<div class="container py-4 px-0">
+    <div class="row justify-content-md-center">
         <h1 style="text-align:center" >{{rockola.nombre}}</h1>
 </div>
 <div class="row py-2">
@@ -116,7 +117,7 @@ Sala Rockola
                     {% for c in canciones %}
                         <tr>
                             <td>{{forloop.counter}}</td>
-                            <td>{{c.fuente}}</td>
+                            <td><a href="https://www.youtube.com/watch?v={{c.fuente}}">{{c.fuente}}</a></td>
                             <td>{{c.nombre}}</td>
                             <td>{{c.artista}}</td>
                             <td><a href="/eliminarCancionRockola/{{rockola.idRockola}}/{{c.idCancion}}" class="btn btn-danger btnEliminacion">Eliminar</a></td>
@@ -126,6 +127,8 @@ Sala Rockola
             </table>
         </div>
     </div>
+
+</div>
 
 </div>
 

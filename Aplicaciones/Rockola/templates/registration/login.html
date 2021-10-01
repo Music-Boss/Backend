@@ -6,7 +6,7 @@ Inicio Sesion
 
 {% block body %}
 
-<div class="container"></div>
+<div class="container py-4"></div>
 
         <div class="row">
             <div class="col-12 col-md-6 offset-md-3">
@@ -16,13 +16,13 @@ Inicio Sesion
                         <hr>
                         <div class="card">
                             <div class="card-body">
-                                <form action="/registroUsuario/" method="POST"> {% csrf_token %}
+                                <form action="/login/" method="POST"> {% csrf_token %}
                                     <!-- la clase "form-group" no renderizaba correctamente los elementos del formulario, se cambiaron por "mb-3" -->
                                     <div class="mb-3">
-                                        <input type="text" id="txtUsuario" name = "txtUsuario"  class="form-control" placeholder="Usuario" minlength="6" maxlength="16" required>
+                                        <input type="text" name = "txtUsuario"  class="form-control" placeholder="Usuario" minlength="5" maxlength="16" required>
                                     </div>
                                     <div class="mb-3">
-                                        <input type="password" id="txtContraseña" name = "txtContraseña"  class="form-control" placeholder="Contraseña" minlength="" maxlength="50" required>
+                                        <input type="password" name = "txtContraseña"  class="form-control" placeholder="Contraseña" minlength="" maxlength="50" required>
                                     </div>
                                     <!--div class="mb-3">
                                         <input type="email" id="txtCorreo" name = "txtCorreo"  class="form-control" placeholder="Correo electronico" min="1" max="9"required>
@@ -30,12 +30,22 @@ Inicio Sesion
 
                                     <!-- btn-block fue reemplazado "d-grid gap-2" en las clases del div -->
                                     <div class="mb-3 d-grid gap-2">
-                                        <button type="submit" class="btn btn-success" >Guardar</button>
+                                        <button type="submit" class="btn btn-success" >Inciar Sesión</button>
                                     </div>
-                                    <li class="nav-item">
-                                        <a class="nav-link active" aria-current="page" href="/registro/">Registrarse</a>
-                                      </li>
+                                       
                                 </form>
+                                <div class="row py-2">
+                                    {% if messages %}
+                                    {% for message in messages %}
+                                    <div class="alert alert-dismissible alert-{% if message.tags %}{{message.tags}}{% endif %} fade show">
+                                    <button type="button" class="btn-close"  data-bs-dismiss="alert" aria-label="Close"></button>
+                                    <strong class="text-dark">{{ message }}</strong>
+                                    </div>
+                                    {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <p>¿No tiene una cuenta?</p>
+                                <a class="btn btn-primary" href="/registro/" role="button">Regístrese</a>
                             </div>
                         </div>   
                         <!--form action=""method="post">

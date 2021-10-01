@@ -1,10 +1,11 @@
-from MusicBoss.settings import AUTH_PASSWORD_VALIDATORS
 from django.shortcuts import redirect, render
-from .models import Curso, Rockola, Cancion, Usuario
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+#from django.contrib.auth.forms import UserCreationForm
 
-
-
+from MusicBoss.settings import AUTH_PASSWORD_VALIDATORS
+from .models import Curso, Rockola, Cancion, Usuario, CustomUserForm
 # Create your views here.
 
 def home(request):
@@ -103,33 +104,49 @@ def eliminarCancionRockola(request, idRockola, idCancion):
     return redirect('/rockola/id/'+idRockola)
 
 #Funciones para login
-def vistalogin (request):
-    return render(request, "registration/login.html")
 
-def registro(request):
-    return render(request, "registration/registro.html")
+def autenticarUsuario(request):
+    if request.user.is_authenticated:
+        return redirect('/home/')
+    else:
+        if request.method == 'POST':
+            username = request.POST['txtUsuario']
+            password = request.POST['txtContraseña']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('/home/')
+            else:
+                messages.info(request, "El nombre de usuario o la contraseña son incorrectos")
+        return render(request,"registration/login.html")
 
-def registrarUsuario(request):
-    nombreUsuario =request.POST['txtUsuario']
-    email = request.POST['txtCorreo']
-    nombre = request.POST['txtNombre']
-    apellido = request.POST['txtApellido']
-    contraseña = request.POST['txtContraseña']
-    #fechaNacimiento = request.POST['txtDate']
-
-    usuario=Usuario.objects.create(username=nombreUsuario,email=email,
-    nombre=nombre,apellido=apellido,contraseña=contraseña)
-
+def cerrarSesionUsuario(request):
+    logout(request)
     return redirect('/')
 
-def ingresarUsuario(request):
-    nombreUsuario =request.POST['txtUsuario']
-    contraseña = request.POST['txtContraseña']
+def registrarUsuario(request):
+    if request.user.is_authenticated:
+        return redirect('/home/')
+    else:
+        form = CustomUserForm()
+        if request.method == 'POST':
+            form = CustomUserForm(request.POST)
+            if form.is_valid():
+                form.save()
+                username = form.cleaned_data.get('username')
+                messages.success(request, "¡El usuario "+ username + " fue creado exitosamente!")
+                return redirect('/login/')
+    
+        context = {'form' : form }
+        return render(request,"registration/registro.html", context)
 
-    usuario=Usuario.objects.create(username=nombreUsuario,contraseña=contraseña)
-    return redirect ('/')
+#Vistas Usuario
 
-    #curso=Curso.objects.create(codigo=codigo, nombre=nombre, creditos=creditos)
-    #messages.success(request,"¡Curso Registrado!")
-    #return redirect('/')
+@login_required(login_url='/login/')
+def userHome(request):
+    return render(request, "usuario/home.html")
 
+#Vista Principal
+
+def homepage(request):
+    return render(request, "home/homepage.html")
