@@ -1,1 +1,1 @@
-web: gunicorn musicboss-app.wsgi
+web: gunicorn MusicBoss.wsgi
