@@ -1,0 +1,1 @@
+web: gunicorn musicboss-app.wsgi
