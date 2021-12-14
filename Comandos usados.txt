@@ -22,3 +22,9 @@ python manage.py createsuperuser
 -> Correr el Servidor
 
 python manage.py runserver
+
+-> Guardar datos para usarlos como datos iniciales al reiniciar la db
+
+python manage.py dumpdata
+
+python manage.py loaddata <nombre_archivo>
