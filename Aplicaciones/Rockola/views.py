@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -110,8 +111,15 @@ def autenticarUsuario(request):
         return redirect('/home/')
     else:
         if request.method == 'POST':
-            username = request.POST['txtUsuario']
-            password = request.POST['txtContraseña']
+            if request.POST.get('txtUsuario') is not None: #Si el txtUser no está vacío
+                username = request.POST.get('txtUsuario')
+                password = request.POST.get('txtContraseña')
+            else: #Se asume que si no, llega una petición JSON en el body del request
+                bodyRes = json.loads(request.body.decode("utf-8"))
+                username = bodyRes['username']
+                password = bodyRes['password']
+            
+            print(f"username: {username}, password: {password}, request body: {request.body} ")
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)

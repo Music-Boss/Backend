@@ -65,8 +65,8 @@ class Cancion(models.Model):
     duracion = models.IntegerField(blank=True, null=True)
     letras = models.TextField(blank=True)
     def __str__(self):
-        texto = "{0} - {1}"
-        return texto.format(self.artista, self.nombre)
+        texto = "{0}: {1} - {2}"
+        return texto.format(self.idCancion, self.artista, self.nombre)
     
 class Lista(models.Model):
     idLista = models.AutoField(primary_key=True)
