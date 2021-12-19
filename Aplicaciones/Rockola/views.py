@@ -9,6 +9,7 @@ from MusicBoss.settings import AUTH_PASSWORD_VALIDATORS
 from .models import Rockola, Cancion, CustomUserForm
 # Create your views here.
 
+"""
 def home(request):
     cursosList = Curso.objects.all()
     messages.success(request,"¡Cursos Listados!")
@@ -44,6 +45,7 @@ def eliminarCurso(request, codigo):
     curso.delete()
     messages.success(request,"¡Curso Eliminado!")
     return redirect('/')
+"""
 
 #Sala Rockola
 
