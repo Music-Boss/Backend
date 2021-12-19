@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 #from django.contrib.auth.forms import UserCreationForm
 
 from MusicBoss.settings import AUTH_PASSWORD_VALIDATORS
-from .models import Curso, Rockola, Cancion, Usuario, CustomUserForm
+from .models import Rockola, Cancion, CustomUserForm
 # Create your views here.
 
 def home(request):

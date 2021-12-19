@@ -19,6 +19,10 @@ python manage.py migrate
 
 python manage.py makemigrations
 
+### Deshacer las migraciones hasta una migración específica
+
+python manage.py migrate Rockola 0006_alter_cancion_artista
+
 ### Crear un superusuario para administrar el proyecto:
 
 python manage.py createsuperuser
