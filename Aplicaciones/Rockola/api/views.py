@@ -6,10 +6,10 @@ from rest_framework.serializers import Serializer
 from rest_framework.utils import serializer_helpers
 
 ### API AUTH ###
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, parser_classes, permission_classes
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
 
 from rest_framework.generics import (
     ListAPIView,
@@ -22,8 +22,15 @@ from rest_framework.generics import (
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import check_password
 
-from Aplicaciones.Rockola.models import Cancion, Lista, Rockola, Amigo
-from .serializers import CancionSerializer, UsuarioSerializer, ListaSerializer, RockolaSerializer, AmigoSerializer
+from Aplicaciones.Rockola.models import Cancion, Lista, Rockola, Solicitud, UserInfo
+from .serializers import (
+    CancionSerializer, 
+    UsuarioSerializer, 
+    ListaSerializer, 
+    RockolaSerializer, 
+    UserInfoSerializer, 
+    SolicitudSerializer
+    )
 
 ### Custom permissions ###
 class IsOwnerOrReadOnly(permissions.BasePermission):
@@ -51,9 +58,16 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
             # Si la referencia al usuario en el objeto no es nula y el usuario actual es el dueño del objeto
             if obj.usuario != None and obj.usuario == request.user:
                 return True
-            
+        
+        #Si el objeto es una solicitud, puede ser editada tanto por el remitente como por el destinatario
+        if hasattr(obj, "remitente"):
+            if obj.remitente != None and obj.remitente == request.user:
+                return True
+            elif obj.destinatario != None and obj.destinatario == request.user:
+                return True
+
         return False
-            
+
 
 class UsuarioViewSet(viewsets.ModelViewSet):
     permission_classes = [IsOwnerOrReadOnly]
@@ -61,11 +75,17 @@ class UsuarioViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UsuarioSerializer
 
-class AmigoViewSet(viewsets.ModelViewSet):
+class UserInfoViewSet(viewsets.ModelViewSet):
     permission_classes = [IsOwnerOrReadOnly]
 
-    queryset = Amigo.objects.all()
-    serializer_class = AmigoSerializer
+    queryset = UserInfo.objects.all()
+    serializer_class = UserInfoSerializer
+
+class SolicitudViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsOwnerOrReadOnly ]
+
+    queryset = Solicitud.objects.all()
+    serializer_class = SolicitudSerializer
 
 class CancionViewSet(viewsets.ModelViewSet):
     queryset = Cancion.objects.all()

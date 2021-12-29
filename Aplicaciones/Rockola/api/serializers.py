@@ -2,7 +2,8 @@ from django.db.models import fields
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
-from Aplicaciones.Rockola.models import Cancion, Lista, Rockola, Amigo
+from django_countries.serializers import CountryFieldMixin
+from Aplicaciones.Rockola.models import Cancion, Lista, Rockola, UserInfo, Solicitud
 
 
 class UsuarioSerializer(serializers.ModelSerializer):
@@ -24,10 +25,10 @@ class UsuarioSerializer(serializers.ModelSerializer):
     
     #validate_password = make_password
 
-class AmigoSerializer(serializers.ModelSerializer):
+class UserInfoSerializer(CountryFieldMixin, serializers.ModelSerializer):
 
     def __init__(self, *args, **kwargs):
-        super(AmigoSerializer, self).__init__(*args, **kwargs)
+        super(UserInfoSerializer, self).__init__(*args, **kwargs)
         request = self.context.get('request')
         if request and (request.method == 'POST' or request.method == 'PUT' or request.method == 'PATCH'):
             self.Meta.depth = 0
@@ -35,7 +36,22 @@ class AmigoSerializer(serializers.ModelSerializer):
             self.Meta.depth = 1
 
     class Meta:
-        model = Amigo
+        model = UserInfo
+        fields = '__all__'
+        depth = 1
+
+class SolicitudSerializer(serializers.ModelSerializer):
+    
+    def __init__(self, *args, **kwargs):
+        super(SolicitudSerializer, self).__init__(*args, **kwargs)
+        request = self.context.get('request')
+        if request and (request.method == 'POST' or request.method == 'PUT' or request.method == 'PATCH'):
+            self.Meta.depth = 0
+        else:
+            self.Meta.depth = 1
+
+    class Meta:
+        model = Solicitud
         fields = '__all__'
         depth = 1
 

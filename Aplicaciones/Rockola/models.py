@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import fields
 from django.forms import widgets
+from django_countries.fields import CountryField
 
 # Create your models here.
 
@@ -26,16 +27,18 @@ class CustomUserForm(UserCreationForm):
         self.fields['password2'].widget.attrs['class'] = 'form-control'
         self.fields['password2'].widget.attrs['placeholder'] = 'Confirmar Contraseña'
 
+class Solicitud(models.Model):
+    idSolicitud= models.AutoField(primary_key=True)
+    remitente = models.ForeignKey(User,related_name="remitente", on_delete=models.CASCADE)
+    destinatario = models.ForeignKey(User,related_name="destinatario", on_delete=models.CASCADE)
+    dateTimeAdded = models.DateTimeField(default=datetime.now)
 
-class Amigo(models.Model):
-    usuario = models.OneToOneField(User, primary_key=True ,related_name="usuario", on_delete=models.CASCADE)
-    amigos = models.ManyToManyField(User, related_name="amigos", blank=True)
-    #models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="amigo", blank=True, null=True)
+    class Meta:
+        unique_together = ('remitente', 'destinatario',)
 
     def __str__(self):
-        texto = "{0}: Amigos"
-        return texto.format(self.usuario)
-
+        texto = "({0}) {1} -> {2}"
+        return texto.format(self.dateTimeAdded, self.remitente, self.destinatario)
 """
 class Usuario(models.Model):
     username = models.CharField(primary_key=True,max_length=16)
@@ -109,3 +112,17 @@ class PlayList(models.Model):
     def __str__(self):
         texto = "({0}) {1} - {2}"
         return texto.format(self.dateTimeAdded, self.rockola, self.cancion)
+
+class UserInfo(models.Model):
+    usuario = models.OneToOneField(User, primary_key=True ,related_name="usuario", on_delete=models.CASCADE)
+    amigos = models.ManyToManyField(User, related_name="amigos", blank=True)
+    bio = models.TextField(blank=True)
+    pais = CountryField(blank=True)
+    fecha_nacimiento = models.DateField(blank=True, null=True)
+    fav_listas = models.ManyToManyField(Lista, related_name="fav_listas", blank=True)
+    fav_rockolas = models.ManyToManyField(Rockola, related_name="fav_rockolas", blank=True)
+    #models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="amigo", blank=True, null=True)
+
+    def __str__(self):
+        texto = "{0}: Amigos"
+        return texto.format(self.usuario)

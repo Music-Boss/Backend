@@ -484,7 +484,8 @@
             "groups": [],
             "user_permissions": []
         }
-    },{
+    },
+    {
         "model": "auth.user",
         "pk": 3,
         "fields": {
@@ -811,22 +812,37 @@
         }
     },
     {
-        "model": "Rockola.amigo",
+        "model": "Rockola.userinfo",
         "pk": 1,
         "fields": {
             "amigos": [
                 3,
                 11
-            ]
+            ],
+            "bio": "",
+            "pais": "",
+            "fecha_nacimiento": null
         }
     },
     {
-        "model": "Rockola.amigo",
+        "model": "Rockola.userinfo",
         "pk": 11,
         "fields": {
             "amigos": [
                 1
-            ]
+            ],
+            "bio": "",
+            "pais": "",
+            "fecha_nacimiento": null
+        }
+    },
+    {
+        "model": "Rockola.solicitud",
+        "pk": 1,
+        "fields": {
+            "remitente": 1,
+            "destinatario": 11,
+            "dateTimeAdded": "2021-12-29T18:18:37Z"
         }
     },
     {
