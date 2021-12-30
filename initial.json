@@ -837,6 +837,19 @@
         }
     },
     {
+        "model": "Rockola.userinfo",
+        "pk": 21,
+        "fields": {
+            "amigos": [
+                1,
+                11
+            ],
+            "bio": "This is just a test",
+            "pais": "Colombia",
+            "fecha_nacimiento": "1999-12-20"
+        }
+    },
+    {
         "model": "Rockola.solicitud",
         "pk": 1,
         "fields": {

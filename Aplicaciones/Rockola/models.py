@@ -32,13 +32,14 @@ class Solicitud(models.Model):
     remitente = models.ForeignKey(User,related_name="remitente", on_delete=models.CASCADE)
     destinatario = models.ForeignKey(User,related_name="destinatario", on_delete=models.CASCADE)
     dateTimeAdded = models.DateTimeField(default=datetime.now)
+    status = models.CharField(max_length=20, blank=True)
 
     class Meta:
         unique_together = ('remitente', 'destinatario',)
 
     def __str__(self):
-        texto = "({0}) {1} -> {2}"
-        return texto.format(self.dateTimeAdded, self.remitente, self.destinatario)
+        texto = "({0}) {1} -> {2}: {3}"
+        return texto.format(self.dateTimeAdded, self.remitente, self.destinatario, self.status)
 """
 class Usuario(models.Model):
     username = models.CharField(primary_key=True,max_length=16)
