@@ -6,7 +6,14 @@ from Aplicaciones.Rockola.api.views import (
     UsuarioViewSet,
     UserInfoViewSet,
     SolicitudViewSet,
-    login
+    login,
+    addRockolaCancion,
+    removeRockolaCancion,
+    usuarioAmigo,
+    usuarioListaFavorita,
+    usuarioRockolaFavorita,
+    sendSolicitud,
+    aceptarSolicitud,
 )
 from django.urls import path
 from rest_framework.routers import DefaultRouter
@@ -21,5 +28,12 @@ router.register(r'rockolas',RockolaViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('login/', login)
+    path('login/', login),
+    path('rockola/<rockolaId>/canciones/add/<cancionId>/',addRockolaCancion),
+    path('rockola/<rockolaId>/canciones/remove/<cancionId>/',removeRockolaCancion),
+    path('usuario/<userId>/amigos/<amigoId>/',usuarioAmigo),
+    path('usuario/<userId>/fav/listas/<listaId>/',usuarioListaFavorita),
+    path('usuario/<userId>/fav/rockolas/<rockolaId>/',usuarioRockolaFavorita),
+    path('usuario/<remitenteId>/solicitud/<destinatarioId>/',sendSolicitud),
+    path('usuario/<remitenteId>/solicitud/<destinatarioId>/aceptar/',aceptarSolicitud),
 ]

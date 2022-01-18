@@ -812,12 +812,21 @@
         }
     },
     {
+        "model": "authtoken.token",
+        "pk": "eda6f2cc7da542812906b410d937a14315c5afef",
+        "fields": {
+            "user": 21,
+            "created": "2021-12-19T03:09:21.260Z"
+        }
+    },
+    {
         "model": "Rockola.userinfo",
         "pk": 1,
         "fields": {
             "amigos": [
                 3,
-                11
+                11,
+                21
             ],
             "bio": "",
             "pais": "",
