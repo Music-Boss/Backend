@@ -52,6 +52,8 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
                 return False
             else:
                 return True
+        elif request.method == 'PUT' or request.method == 'PATCH' or request.method == 'DELETE':
+            return True
 
     def has_object_permission(self, request, view, obj):
         # Read permissions are allowed to any request,
