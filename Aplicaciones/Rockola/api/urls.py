@@ -35,5 +35,8 @@ urlpatterns = [
     path('usuario/<userId>/fav/listas/<listaId>/',usuarioListaFavorita),
     path('usuario/<userId>/fav/rockolas/<rockolaId>/',usuarioRockolaFavorita),
     path('usuario/<remitenteId>/solicitud/<destinatarioId>/',sendSolicitud),
+    #path('usuario/<usuarioId>/lista/',crearLista),
+    #path('usuario/<usuarioId>/rockola/',crearRockola),
+    #path('usuario/<usuarioId>/add/',crearUsuario),
     path('usuario/<remitenteId>/solicitud/<destinatarioId>/aceptar/',aceptarSolicitud),
 ]

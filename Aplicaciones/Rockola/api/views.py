@@ -48,8 +48,10 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
         has_atrib = "remitente" in bodyRes
         print(f" hasatrib: {has_atrib}")
         if request.method == 'POST':
-            if "remitente" in request.data: #Si se intenta crear una nueva solicitud
-                return False
+            if "remitente" in request.data: #Si se intenta crear una nuevo objeto Solicitud
+                return False    #No se da permiso, ya que esto es manejado por otra ruta
+            #elif "usuario" in request.data: #Si se untenta crear un objeto de lista, rockola o userinfo
+            #    return False   #Se manejará por otra petición
             else:
                 return True
         elif request.method == 'PUT' or request.method == 'PATCH' or request.method == 'DELETE':

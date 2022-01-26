@@ -33,12 +33,12 @@ class UserInfoSerializer(CountryFieldMixin, serializers.ModelSerializer):
         if request and (request.method == 'POST' or request.method == 'PUT' or request.method == 'PATCH'):
             self.Meta.depth = 0
         else:
-            self.Meta.depth = 1
+            self.Meta.depth = 2
 
     class Meta:
         model = UserInfo
         fields = '__all__'
-        depth = 1
+        depth = 2
 
 class SolicitudSerializer(serializers.ModelSerializer):
     
